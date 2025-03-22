@@ -4,9 +4,10 @@ import { useLoginMutation } from "../../../entites/user/userApi.ts";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { loginValidationSchema } from "../lib/validationSchema.ts";
+import Loader from "../../../shared/components/Loader.tsx";
 
 export const LoginForm: FC = (): ReactElement => {
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const redirect = useNavigate();
 
   const formik = useFormik({
@@ -36,39 +37,52 @@ export const LoginForm: FC = (): ReactElement => {
           formik.handleSubmit();
         }}
       >
-        <Stack spacing={3} alignItems={"center"} width="100%">
-          <Typography variant="h5">Авторизация</Typography>
-          <TextField
-            placeholder="Логин"
-            name="username"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.username && !!formik.errors.username}
-            helperText={
-              formik.touched.username && formik.errors.username
-                ? formik.errors.username
-                : ""
-            }
-            value={formik.values.username}
-          />
-          <TextField
-            placeholder="Пароль"
-            type="password"
-            name="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.password && !!formik.errors.password}
-            helperText={
-              formik.touched.password && formik.errors.password
-                ? formik.errors.password
-                : ""
-            }
-            value={formik.values.password}
-          />
-          <Button fullWidth variant="outlined" type="submit">
-            Войти
-          </Button>
+        <Stack
+          spacing={3}
+          alignItems="center"
+          minHeight={290}
+          minWidth={230}
+          justifyContent="center"
+          width="100%"
+        >
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              <Typography variant="h5">Авторизация</Typography>
+              <TextField
+                placeholder="Логин"
+                name="username"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.username && !!formik.errors.username}
+                helperText={
+                  formik.touched.username && formik.errors.username
+                    ? formik.errors.username
+                    : ""
+                }
+                value={formik.values.username}
+              />
+              <TextField
+                placeholder="Пароль"
+                type="password"
+                name="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.password && !!formik.errors.password}
+                helperText={
+                  formik.touched.password && formik.errors.password
+                    ? formik.errors.password
+                    : ""
+                }
+                value={formik.values.password}
+              />
+              <Button fullWidth variant="outlined" type="submit">
+                Войти
+              </Button>
+            </>
+          )}
         </Stack>
       </form>
     </Paper>

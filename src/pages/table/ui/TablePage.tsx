@@ -10,7 +10,7 @@ import DeleteTableItemForm from "../../../features/table/deleteTableItem";
 import Page from "../../../shared/components/Page.tsx";
 
 export const TablePage: FC = (): ReactElement => {
-  const { data } = useGetTableDataQuery(null);
+  const { data, isLoading } = useGetTableDataQuery(null);
 
   const [isOpenEditModal, setOpenEditModal] = useState<boolean>(false);
   const [isOpenCreateModal, setOpenCreateModal] = useState<boolean>(false);
@@ -87,6 +87,7 @@ export const TablePage: FC = (): ReactElement => {
         }}
       >
         <DataGrid
+          loading={isLoading}
           sx={{
             height: "400px",
           }}
